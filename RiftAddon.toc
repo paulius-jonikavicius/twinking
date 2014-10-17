@@ -1,0 +1,34 @@
+Identifier = "TwinKing"
+
+Name = {
+  English = "TwinKing",
+  French = "TwinKing",
+  German = "TwinKing",
+}
+
+NameShort = "tKing"
+Description = {
+  English = "Twin: King of the hill"
+}
+
+Author = "Paseles@Gelidra; Uogute@Gelidra"
+Website = ""
+Version = "1.0.0"
+
+Email = "paseles_uogute@gelidra.com"
+
+Environment = "2.8"
+
+Embed = {
+}
+
+Dependencies = {}
+
+SavedVariables = {
+  tKingDB = "global"
+}
+
+RunOnStartup = {
+	"functions.lua",
+	"TwinKing.lua"
+}
