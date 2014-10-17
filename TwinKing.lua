@@ -52,9 +52,9 @@ TwinKing = {
 }
 
 Command.Event.Attach(Event.Message.Receive, TwinKing.event.messageReceived, "Message received")
-print(Inspect.Guild.Roster.Detail("Uogutes"))
-print(Inspect.Guild.Roster.Detail("Uogute"))
+--[[
 local ranks = Inspect.Guild.Rank.List()
 for _, l in pairs(ranks) do
     print(l)
 end
+]]
