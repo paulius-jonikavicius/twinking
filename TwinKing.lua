@@ -2,10 +2,24 @@ local toc, data = ...
 local addonID = toc.identifier
 local TwinKing
 
+local dummyDB = {
+    warrior = {
+        [1] = {
+            name = "Uogute",
+            lastReceived = nil
+        },
+        [2] = { name = "Paseles" }
+    },
+    cleric = {},
+    rogue = {},
+    mage = {}
+}
+
 TwinKing = {
     ranks = {
         ["Head Honcho"] = true,
-        ["Guild Leaders"] = true
+        ["Guild Leaders"] = true,
+        ["Crusader"] = true
     },
     event = {
         -- Message received
@@ -14,6 +28,31 @@ TwinKing = {
                 -- TODO: call function based on data
                 TwinKing.MSG:received(from, data)
             end
+        end
+    },
+    DB = {
+        --[[
+        --  Checks if player is in the database.
+        --  Returns position and player or nil
+        -- ]]
+        contains = function(player)
+            for i, v in ipairs(tKingDB[player.class]) do
+                if v.name == player.name then
+                    return v, i
+                end
+            end
+            return nil
+        end,
+        --[[
+        --  Kills the 'king' by moving him to the end
+        --  of the list
+        -- ]]
+        kill = function(king, pos)
+            while pos < #tKingDB do
+                tKingDB[pos] = tKingDB[pos + 1]
+                pos = pos + 1
+            end
+            tKingDB[pos] = king
         end
     },
     MSG = {
@@ -41,20 +80,23 @@ TwinKing = {
         end,
         --[[
         -- Broadcasted message receiver
+        -- @from = string, player name
+        -- @data = {
+        --  class   = string
+        --  name    = string
         -- ]]
         received = function(this, from, data)
         --    validate 'from'
             if this:isValidBroadcaster(from) then
-                -- TODO: update information
+                local king, pos = TwinKing.DB.contains(decode(data))
+
+                if king ~= nil then
+                    king.lastReceived = Inspect.Time.Server()
+                    TwinKing.DB.kill(king, pos)
+                end
             end
         end
     }
 }
 
 Command.Event.Attach(Event.Message.Receive, TwinKing.event.messageReceived, "Message received")
---[[
-local ranks = Inspect.Guild.Rank.List()
-for _, l in pairs(ranks) do
-    print(l)
-end
-]]
