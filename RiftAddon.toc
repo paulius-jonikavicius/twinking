@@ -30,6 +30,7 @@ SavedVariables = {
 }
 
 RunOnStartup = {
+	"json.lua",
 	"functions.lua",
 	"interface.lua",
 	"TwinKing.lua"

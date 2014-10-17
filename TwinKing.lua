@@ -3,6 +3,10 @@ local addonID = toc.identifier
 local TwinKing
 
 TwinKing = {
+    ranks = {
+        ["Head Honcho"] = true,
+        ["Guild Leaders"] = true
+    },
     event = {
         -- Message received
         messageReceived = function(handle, from, type, channel, identifier, data)
@@ -22,8 +26,18 @@ TwinKing = {
                 return false
             end
 
-        -- Broadcaster is not a member of the guild
+            -- Broadcaster is not a member of the guild
+            from = Inspect.Guild.Roster.Detail(from)
+            if from == nil then
+                return false
+            end
 
+            -- Broadcaster has insufficient rank
+            if not this.ranks[from.rank] then
+                return false
+            end
+
+            return true
         end,
         --[[
         -- Broadcasted message receiver
@@ -39,3 +53,8 @@ TwinKing = {
 
 Command.Event.Attach(Event.Message.Receive, TwinKing.event.messageReceived, "Message received")
 print(Inspect.Guild.Roster.Detail("Uogutes"))
+print(Inspect.Guild.Roster.Detail("Uogute"))
+local ranks = Inspect.Guild.Rank.List()
+for _, l in pairs(ranks) do
+    print(l)
+end
