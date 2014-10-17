@@ -1,1 +1,3 @@
-function TwinKing.MSG.receive(from, data) end
+function TwinKing.MSG.receive(from, data)
+--    validate 'from'
+end
