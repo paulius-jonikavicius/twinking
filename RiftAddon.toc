@@ -25,10 +25,12 @@ Embed = {
 Dependencies = {}
 
 SavedVariables = {
-  tKingDB = "global"
+  tKingDB = "global",
+  tKingUI = "character",
 }
 
 RunOnStartup = {
 	"functions.lua",
+	"interface.lua",
 	"TwinKing.lua"
 }
